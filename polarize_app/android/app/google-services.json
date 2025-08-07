@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1092212759588",
+    "project_id": "polarize-6605d",
+    "storage_bucket": "polarize-6605d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1092212759588:android:f0ffe1f72d4b72d22dccb1",
+        "android_client_info": {
+          "package_name": "com.example.polarize_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvqflCeN_-iRuiaUKU7xqOX5uIAxlYALM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
