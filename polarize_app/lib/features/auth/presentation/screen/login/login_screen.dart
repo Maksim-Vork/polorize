@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:polarize_app/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:polarize_app/features/auth/presentation/bloc/auth_event.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -183,7 +186,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              BlocProvider.of<AuthBloc>(context).add(
+                                LoginEvent(
+                                  email: _emailController.text,
+                                  password: _passwordController.text,
+                                ),
+                              );
+                            },
                             child: Text(
                               'Login',
                               style: TextStyle(

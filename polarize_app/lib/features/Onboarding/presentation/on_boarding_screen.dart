@@ -14,7 +14,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF2D2D2D),
+      backgroundColor: Color.fromARGB(255, 30, 30, 30),
       body: Padding(
         padding: EdgeInsetsGeometry.symmetric(horizontal: 15, vertical: 10),
         child: Center(
