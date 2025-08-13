@@ -1,12 +1,12 @@
 import 'package:polarize_app/features/Photo/domain/entity/image.dart';
 import 'package:polarize_app/features/Photo/domain/repository/photo_repository.dart';
 
-class AddPhotoUsecase {
+class GetImageCurrentDay {
   final PhotoRepository photoRepository;
 
-  AddPhotoUsecase({required this.photoRepository});
+  GetImageCurrentDay({required this.photoRepository});
 
-  Future<void> call(bool forCamera) async {
+  Future<List<UserImage>> call() async {
     final DateTime currentDay = DateTime.now();
     final DateTime date = DateTime(
       currentDay.day,
@@ -17,8 +17,6 @@ class AddPhotoUsecase {
     final List<UserImage> imageCurrentDay = images
         .where((e) => e.createdAt == date)
         .toList();
-    if (imageCurrentDay.length < 3) {
-      await photoRepository.addPhotoForCamera(forCamera);
-    }
+    return imageCurrentDay;
   }
 }

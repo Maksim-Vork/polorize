@@ -2,6 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:uuid/uuid.dart';
 
 final uuid = Uuid();
+final DateTime currentDay = DateTime.now();
+final DateTime date = DateTime(
+  currentDay.day,
+  currentDay.month,
+  currentDay.year,
+);
 
 class ImageModel {
   final String? id;
@@ -10,7 +16,7 @@ class ImageModel {
 
   ImageModel({String? id, required this.imageUrl, DateTime? createdAt})
     : id = id ?? uuid.v4(),
-      createdAt = createdAt ?? DateTime.now();
+      createdAt = createdAt ?? date;
 
   Map<String, dynamic> toMap() {
     return {'imageUrl': imageUrl, 'createdAt': Timestamp.fromDate(createdAt!)};

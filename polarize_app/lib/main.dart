@@ -6,6 +6,8 @@ import 'package:polarize_app/features/Photo/data/datasource/remote_photo_data.da
 import 'package:polarize_app/features/Photo/data/repository/photo_repository_impl.dart';
 import 'package:polarize_app/features/Photo/domain/repository/photo_repository.dart';
 import 'package:polarize_app/features/Photo/domain/usecase/add_photo_usecase.dart';
+import 'package:polarize_app/features/Photo/domain/usecase/delete_photo_usecase.dart';
+import 'package:polarize_app/features/Photo/domain/usecase/get_image_current_day.dart';
 import 'package:polarize_app/features/Photo/domain/usecase/get_photos_usecase.dart';
 import 'package:polarize_app/features/Photo/presentation/bloc/photo_bloc.dart';
 import 'package:polarize_app/features/Photo/presentation/bloc/photo_event.dart';
@@ -57,14 +59,23 @@ void main() async {
   final GetPhotosUsecase getPhotosUsecase = GetPhotosUsecase(
     photoRepository: photoRepository,
   );
+  final GetImageCurrentDay getImageCurrentDay = GetImageCurrentDay(
+    photoRepository: photoRepository,
+  );
+  final DeletePhotoUsecase deletePhotoUsecase = DeletePhotoUsecase(
+    photoRepository: photoRepository,
+  );
   runApp(
     SafeArea(
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) =>
-                PhotoBloc(addPhotoForCameraUsecase, getPhotosUsecase),
-            // ..add(GetPhotoEvent()),
+            create: (context) => PhotoBloc(
+              addPhotoForCameraUsecase,
+              getPhotosUsecase,
+              getImageCurrentDay,
+              deletePhotoUsecase,
+            )..add(GetPhotosEvent()),
           ),
           BlocProvider(
             create: (context) => AuthBloc(
@@ -96,7 +107,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 3), () {
       Navigator.push(
         // ignore: use_build_context_synchronously
         context,

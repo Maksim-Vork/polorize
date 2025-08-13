@@ -7,9 +7,20 @@ class InitialPhotoState extends PhotoState {}
 class LoadingPhotoState extends PhotoState {}
 
 class LoadedPhotoState extends PhotoState {
-  final List<UserImage> images;
+  final List<UserImage> allImage;
+  final List<UserImage> currentDayImage;
 
-  LoadedPhotoState({required this.images});
+  LoadedPhotoState({required this.allImage, required this.currentDayImage});
+
+  LoadedPhotoState copyWith({
+    final List<UserImage>? allImage,
+    final List<UserImage>? currentDayImage,
+  }) {
+    return LoadedPhotoState(
+      allImage: allImage ?? this.allImage,
+      currentDayImage: currentDayImage ?? this.allImage,
+    );
+  }
 }
 
 class ErrorPhotoState extends PhotoState {

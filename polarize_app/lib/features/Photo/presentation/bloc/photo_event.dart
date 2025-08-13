@@ -1,3 +1,5 @@
+import 'package:polarize_app/features/Photo/domain/entity/image.dart';
+
 abstract class PhotoEvent {}
 
 class AddPhotoEvent extends PhotoEvent {
@@ -6,4 +8,10 @@ class AddPhotoEvent extends PhotoEvent {
   AddPhotoEvent({required this.forCamera});
 }
 
-class GetPhotoEvent extends PhotoEvent {}
+class GetPhotosEvent extends PhotoEvent {}
+
+class DeleteImageByIdEvent extends PhotoEvent {
+  final UserImage userImage;
+
+  DeleteImageByIdEvent({required this.userImage});
+}

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:polarize_app/features/Photo/data/datasource/remote_photo_data.dart';
 import 'package:polarize_app/features/Photo/data/models/image_model.dart';
 import 'package:polarize_app/features/Photo/domain/entity/image.dart';
@@ -31,8 +32,17 @@ class PhotoRepositoryImpl implements PhotoRepository {
           )
           .toList();
     } catch (e) {
-      print('ОШИБКА ОШИБКА ОШИБКА: $e');
       throw Exception('Ошибка при получении фото: $e');
     }
+  }
+
+  @override
+  Future<void> deleteImageById(UserImage userImage) async {
+    final ImageModel imageModel = ImageModel(
+      id: userImage.id,
+      imageUrl: userImage.imageUrl,
+      createdAt: userImage.createdAt,
+    );
+    await remotePhotoData.deleteImageById(imageModel);
   }
 }
