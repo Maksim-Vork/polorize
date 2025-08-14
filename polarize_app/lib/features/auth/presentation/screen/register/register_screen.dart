@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:polarize_app/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:polarize_app/features/auth/presentation/bloc/auth_event.dart';
-import 'package:polarize_app/features/auth/presentation/bloc/auth_state.dart';
-import 'package:polarize_app/features/auth/presentation/screen/login/login_screen.dart';
+import 'package:polarize_app/features/Auth/presentation/bloc/auth_bloc.dart';
+import 'package:polarize_app/features/Auth/presentation/bloc/auth_event.dart';
+import 'package:polarize_app/features/Auth/presentation/bloc/auth_state.dart';
+import 'package:polarize_app/features/Auth/presentation/screen/login/login_screen.dart';
 import 'package:polarize_app/main_wrapper.dart';
 
 class RegisterScreen extends StatefulWidget {

@@ -15,3 +15,9 @@ class DeleteImageByIdEvent extends PhotoEvent {
 
   DeleteImageByIdEvent({required this.userImage});
 }
+
+class SelectCurrentImageEvent extends PhotoEvent {
+  final int currentIndex;
+
+  SelectCurrentImageEvent({required this.currentIndex});
+}

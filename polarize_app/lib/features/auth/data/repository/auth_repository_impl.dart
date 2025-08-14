@@ -1,5 +1,5 @@
-import 'package:polarize_app/features/auth/data/datasource/remote_auth_datasource.dart';
-import 'package:polarize_app/features/auth/domain/repository/auth_repository.dart';
+import 'package:polarize_app/features/Auth/data/datasource/remote_auth_datasource.dart';
+import 'package:polarize_app/features/Auth/domain/repository/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final RemoteAuthDatasource remoteAuthDatasource;

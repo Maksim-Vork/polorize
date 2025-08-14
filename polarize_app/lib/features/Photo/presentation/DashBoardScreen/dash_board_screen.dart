@@ -12,14 +12,6 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  int selectedIndex = 0;
-
-  void updateSelectedIndex(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +41,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Spacer(),
                         SizedBox(width: 60),
                         Container(
                           height: 186,
@@ -73,7 +64,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   ),
                                   borderRadius: BorderRadius.circular(100),
                                 ),
-                                child: state.currentDayImage.isEmpty
+                                child: state.currentImage == null
                                     ? Center(
                                         child: Icon(
                                           Icons.photo_camera_outlined,
@@ -91,7 +82,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                         fit: BoxFit.cover,
 
                                         state
-                                            .currentDayImage[selectedIndex]
+                                            .currentDayImage[state
+                                                .currentImage!]
                                             .imageUrl,
                                       ),
                               ),
@@ -110,7 +102,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    '${selectedIndex + 1}/3',
+                                    '${state.currentDayImage.length}/3',
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 16,
@@ -121,8 +113,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     onPressed: () {
                                       BlocProvider.of<PhotoBloc>(context).add(
                                         DeleteImageByIdEvent(
-                                          userImage: state
-                                              .currentDayImage[selectedIndex],
+                                          userImage:
+                                              state.currentDayImage[state
+                                                  .currentImage!],
                                         ),
                                       );
                                     },
@@ -146,7 +139,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         children: List.generate(
                           state.currentDayImage.length,
                           (index) => InkWell(
-                            onTap: () => updateSelectedIndex(index),
+                            onTap: () => BlocProvider.of<PhotoBloc>(
+                              context,
+                            ).add(SelectCurrentImageEvent(currentIndex: index)),
                             child: Container(
                               margin: EdgeInsets.symmetric(horizontal: 8),
                               width: 52,

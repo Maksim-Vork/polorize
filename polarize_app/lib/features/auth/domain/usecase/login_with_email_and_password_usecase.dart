@@ -1,4 +1,4 @@
-import 'package:polarize_app/features/auth/domain/repository/auth_repository.dart';
+import 'package:polarize_app/features/Auth/domain/repository/auth_repository.dart';
 
 class LoginWithEmailAndPasswordUsecase {
   final AuthRepository authRepository;

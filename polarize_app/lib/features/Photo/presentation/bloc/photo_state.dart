@@ -9,16 +9,23 @@ class LoadingPhotoState extends PhotoState {}
 class LoadedPhotoState extends PhotoState {
   final List<UserImage> allImage;
   final List<UserImage> currentDayImage;
+  final int? currentImage;
 
-  LoadedPhotoState({required this.allImage, required this.currentDayImage});
+  LoadedPhotoState({
+    required this.allImage,
+    required this.currentDayImage,
+    required this.currentImage,
+  });
 
   LoadedPhotoState copyWith({
     final List<UserImage>? allImage,
     final List<UserImage>? currentDayImage,
+    final int? currentImage,
   }) {
     return LoadedPhotoState(
       allImage: allImage ?? this.allImage,
-      currentDayImage: currentDayImage ?? this.allImage,
+      currentDayImage: currentDayImage ?? this.currentDayImage,
+      currentImage: currentImage,
     );
   }
 }

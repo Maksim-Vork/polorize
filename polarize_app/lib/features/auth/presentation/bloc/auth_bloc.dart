@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:polarize_app/features/auth/domain/usecase/check_auth_usecase.dart';
-import 'package:polarize_app/features/auth/domain/usecase/login_with_email_and_password_usecase.dart';
-import 'package:polarize_app/features/auth/domain/usecase/register_with_email_and_password_usecase.dart';
-import 'package:polarize_app/features/auth/domain/usecase/sign_out_usecase.dart';
-import 'package:polarize_app/features/auth/presentation/bloc/auth_event.dart';
-import 'package:polarize_app/features/auth/presentation/bloc/auth_state.dart';
+import 'package:polarize_app/features/Auth/domain/usecase/check_auth_usecase.dart';
+import 'package:polarize_app/features/Auth/domain/usecase/login_with_email_and_password_usecase.dart';
+import 'package:polarize_app/features/Auth/domain/usecase/register_with_email_and_password_usecase.dart';
+import 'package:polarize_app/features/Auth/domain/usecase/sign_out_usecase.dart';
+import 'package:polarize_app/features/Auth/presentation/bloc/auth_event.dart';
+import 'package:polarize_app/features/Auth/presentation/bloc/auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final CheckAuthUsecase checkAuthUsecase;
