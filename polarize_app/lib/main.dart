@@ -1,6 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:polarize_app/features/Activity/data/datasource/remote_activity_data.dart';
+import 'package:polarize_app/features/Activity/data/repository/activity_repository_impl.dart';
+import 'package:polarize_app/features/Activity/domain/repository/activity_repository.dart';
+import 'package:polarize_app/features/Activity/domain/usecase/create_activity_for_new_user_usecase.dart';
+import 'package:polarize_app/features/Activity/domain/usecase/get_activity_usecase.dart';
+import 'package:polarize_app/features/Activity/domain/usecase/update_activity_usecase.dart';
+import 'package:polarize_app/features/Activity/presentation/bloc/activity_bloc.dart';
+import 'package:polarize_app/features/Activity/presentation/bloc/activity_event.dart';
 import 'package:polarize_app/features/Auth/data/datasource/remote_auth_datasource.dart';
 import 'package:polarize_app/features/Auth/data/repository/auth_repository_impl.dart';
 import 'package:polarize_app/features/Auth/domain/repository/auth_repository.dart';
@@ -32,6 +40,10 @@ void main() async {
     anonKey:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV6ZXF0YXN6aWtqam5ibWxxd3ppIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ5OTI1ODQsImV4cCI6MjA3MDU2ODU4NH0.ZfRSFBlqVqQkERm72fJGMQvywgKiaY2jz295yy87CG8',
   );
+  final RemoteActivityData remoteActivityData = RemoteActivityData();
+  final ActivityRepository activityRepository = ActivityRepositoryImpl(
+    remoteActivityData: remoteActivityData,
+  );
   final RemoteAuthDatasource remoteAuthDatasource = RemoteAuthDatasource();
   final AuthRepository authRepository = AuthRepositoryImpl(
     remoteAuthDatasource: remoteAuthDatasource,
@@ -44,6 +56,7 @@ void main() async {
   final RegisterWithEmailAndPasswordUsecase
   registerWithEmailAndPasswordUsecase = RegisterWithEmailAndPasswordUsecase(
     authRepository: authRepository,
+    activityRepository: activityRepository,
   );
   final SignOutUsecase signOutUsecase = SignOutUsecase(
     authRepository: authRepository,
@@ -64,10 +77,26 @@ void main() async {
   final DeletePhotoUsecase deletePhotoUsecase = DeletePhotoUsecase(
     photoRepository: photoRepository,
   );
+
+  final GetActivityUsecase getActivityUsecase = GetActivityUsecase(
+    activityRepository: activityRepository,
+  );
+  final CreateActivityForNewUserUsecase createActivityForNewUserUsecase =
+      CreateActivityForNewUserUsecase(activityRepository: activityRepository);
+  final UpdateActivityUsecase updateActivityUsecase = UpdateActivityUsecase(
+    activityRepository: activityRepository,
+  );
   runApp(
     SafeArea(
       child: MultiBlocProvider(
         providers: [
+          BlocProvider(
+            create: (context) => ActivityBloc(
+              getActivityUsecase,
+              createActivityForNewUserUsecase,
+              updateActivityUsecase,
+            )..add(GetActivityEvent()),
+          ),
           BlocProvider(
             create: (context) => PhotoBloc(
               addPhotoForCameraUsecase,
@@ -82,6 +111,7 @@ void main() async {
               loginWithEmailAndPasswordUsecase,
               registerWithEmailAndPasswordUsecase,
               signOutUsecase,
+              context.read<ActivityBloc>(),
             )..add(ChechAuthEvent()),
           ),
         ],

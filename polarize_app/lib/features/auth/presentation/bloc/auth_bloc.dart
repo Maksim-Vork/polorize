@@ -1,4 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:polarize_app/features/Activity/presentation/bloc/activity_bloc.dart';
+import 'package:polarize_app/features/Activity/presentation/bloc/activity_event.dart';
 import 'package:polarize_app/features/Auth/domain/usecase/check_auth_usecase.dart';
 import 'package:polarize_app/features/Auth/domain/usecase/login_with_email_and_password_usecase.dart';
 import 'package:polarize_app/features/Auth/domain/usecase/register_with_email_and_password_usecase.dart';
@@ -11,11 +13,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LoginWithEmailAndPasswordUsecase loginWithEmailAndPasswordUsecase;
   final RegisterWithEmailAndPasswordUsecase registerWithEmailAndPasswordUsecase;
   final SignOutUsecase signOutUsecase;
+  final ActivityBloc activityBloc;
   AuthBloc(
     this.checkAuthUsecase,
     this.loginWithEmailAndPasswordUsecase,
     this.registerWithEmailAndPasswordUsecase,
     this.signOutUsecase,
+    this.activityBloc,
   ) : super(InitialAuthState()) {
     on<LoginEvent>(_onLogin);
     on<RegisterEvent>(_onRegister);
@@ -37,6 +41,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(LoadingAuthState());
     try {
       await registerWithEmailAndPasswordUsecase(event.email, event.password);
+      activityBloc.add(GetActivityEvent());
       emit(SuccesAuthState());
     } catch (e) {
       emit(ErrorAuthState(error: e.toString()));

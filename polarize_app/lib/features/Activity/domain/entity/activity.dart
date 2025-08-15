@@ -1,5 +1,5 @@
 class Activity {
-  final Map<String, dynamic> photoActivity;
+  final Map<String, int> photoActivity;
   final int sumActivityDays;
   final DateTime? lastDayActiv;
 
