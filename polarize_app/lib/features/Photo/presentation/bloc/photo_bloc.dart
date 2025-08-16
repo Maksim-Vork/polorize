@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:polarize_app/features/Activity/presentation/bloc/activity_bloc.dart';
 import 'package:polarize_app/features/Photo/domain/entity/image.dart';
 import 'package:polarize_app/features/Photo/domain/usecase/add_photo_usecase.dart';
 import 'package:polarize_app/features/Photo/domain/usecase/delete_photo_usecase.dart';
@@ -12,11 +13,13 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
   final GetPhotosUsecase getPhotosUsecase;
   final GetImageCurrentDay getImageCurrentDay;
   final DeletePhotoUsecase deletePhotoUsecase;
+  final ActivityBloc activityBloc;
   PhotoBloc(
     this.addPhotoForCameraUsecase,
     this.getPhotosUsecase,
     this.getImageCurrentDay,
     this.deletePhotoUsecase,
+    this.activityBloc,
   ) : super(InitialPhotoState()) {
     on<AddPhotoEvent>(_onAddPhoto);
     on<GetPhotosEvent>(_onGetPhotos);
@@ -30,7 +33,7 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
       await addPhotoForCameraUsecase(event.forCamera);
       final List<UserImage> allImage = await getPhotosUsecase();
       final List<UserImage> currentDayImage = await getImageCurrentDay();
-
+      await activityBloc.updateActivityUsecase();
       emit(
         LoadedPhotoState(
           allImage: allImage,
@@ -81,7 +84,7 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
           newCurrentIndex = currentDayImage.length - 1;
         }
       } else {
-        newCurrentIndex = null; // Фото больше нет
+        newCurrentIndex = null;
       }
       emit(
         LoadedPhotoState(

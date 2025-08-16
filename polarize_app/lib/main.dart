@@ -23,11 +23,11 @@ import 'package:polarize_app/features/Photo/domain/usecase/get_image_current_day
 import 'package:polarize_app/features/Photo/domain/usecase/get_photos_usecase.dart';
 import 'package:polarize_app/features/Photo/presentation/bloc/photo_bloc.dart';
 import 'package:polarize_app/features/Photo/presentation/bloc/photo_event.dart';
-import 'package:polarize_app/features/auth/domain/usecase/check_auth_usecase.dart';
-import 'package:polarize_app/features/auth/domain/usecase/login_with_email_and_password_usecase.dart';
-import 'package:polarize_app/features/auth/domain/usecase/register_with_email_and_password_usecase.dart';
-import 'package:polarize_app/features/auth/domain/usecase/sign_out_usecase.dart';
-import 'package:polarize_app/features/auth/presentation/screen/register/register_screen.dart';
+import 'package:polarize_app/features/Auth/domain/usecase/check_auth_usecase.dart';
+import 'package:polarize_app/features/Auth/domain/usecase/login_with_email_and_password_usecase.dart';
+import 'package:polarize_app/features/Auth/domain/usecase/register_with_email_and_password_usecase.dart';
+import 'package:polarize_app/features/Auth/domain/usecase/sign_out_usecase.dart';
+import 'package:polarize_app/features/Auth/presentation/screen/register/register_screen.dart';
 import 'package:polarize_app/firebase_options.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -103,6 +103,7 @@ void main() async {
               getPhotosUsecase,
               getImageCurrentDay,
               deletePhotoUsecase,
+              context.read<ActivityBloc>(),
             )..add(GetPhotosEvent()),
           ),
           BlocProvider(
