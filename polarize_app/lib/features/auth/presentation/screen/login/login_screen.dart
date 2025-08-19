@@ -187,12 +187,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                             ),
                             onPressed: () {
-                              BlocProvider.of<AuthBloc>(context).add(
-                                LoginEvent(
-                                  email: _emailController.text,
-                                  password: _passwordController.text,
-                                ),
-                              );
+                              try {
+                                BlocProvider.of<AuthBloc>(context).add(
+                                  LoginEvent(
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                  ),
+                                );
+                                Navigator.pop(context);
+                                // ignore: empty_catches
+                              } catch (e) {}
                             },
                             child: Text(
                               'Login',

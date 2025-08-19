@@ -4,6 +4,7 @@ import 'package:polarize_app/features/Photo/domain/entity/image.dart';
 import 'package:polarize_app/features/Photo/domain/usecase/add_photo_usecase.dart';
 import 'package:polarize_app/features/Photo/domain/usecase/delete_photo_usecase.dart';
 import 'package:polarize_app/features/Photo/domain/usecase/get_image_current_day.dart';
+import 'package:polarize_app/features/Photo/domain/usecase/get_images_for_map_usecase.dart';
 import 'package:polarize_app/features/Photo/domain/usecase/get_photos_usecase.dart';
 import 'package:polarize_app/features/Photo/presentation/bloc/photo_event.dart';
 import 'package:polarize_app/features/Photo/presentation/bloc/photo_state.dart';
@@ -13,6 +14,7 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
   final GetPhotosUsecase getPhotosUsecase;
   final GetImageCurrentDay getImageCurrentDay;
   final DeletePhotoUsecase deletePhotoUsecase;
+  final GetImagesForMapUsecase getImagesForMapUsecase;
   final ActivityBloc activityBloc;
   PhotoBloc(
     this.addPhotoForCameraUsecase,
@@ -20,6 +22,7 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
     this.getImageCurrentDay,
     this.deletePhotoUsecase,
     this.activityBloc,
+    this.getImagesForMapUsecase,
   ) : super(InitialPhotoState()) {
     on<AddPhotoEvent>(_onAddPhoto);
     on<GetPhotosEvent>(_onGetPhotos);
@@ -33,12 +36,14 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
       await addPhotoForCameraUsecase(event.forCamera);
       final List<UserImage> allImage = await getPhotosUsecase();
       final List<UserImage> currentDayImage = await getImageCurrentDay();
-      await activityBloc.updateActivityUsecase();
+      final Map<String, List<UserImage>> imagesByDay =
+          await getImagesForMapUsecase();
       emit(
         LoadedPhotoState(
           allImage: allImage,
           currentDayImage: currentDayImage,
           currentImage: 0,
+          imagesByDate: imagesByDay,
         ),
       );
     } catch (e) {
@@ -50,14 +55,17 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
     try {
       final List<UserImage> allImage = await getPhotosUsecase();
       final List<UserImage> currentDayImage = await getImageCurrentDay();
+      final Map<String, List<UserImage>> imagesByDay =
+          await getImagesForMapUsecase();
 
       emit(
         LoadedPhotoState(
           allImage: allImage,
           currentDayImage: currentDayImage,
           currentImage: currentDayImage.isNotEmpty
-              ? currentDayImage.length
+              ? currentDayImage.length - 1
               : null,
+          imagesByDate: imagesByDay,
         ),
       );
     } catch (e) {
@@ -73,6 +81,8 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
       await deletePhotoUsecase(event.userImage);
       final List<UserImage> allImage = await getPhotosUsecase();
       final List<UserImage> currentDayImage = await getImageCurrentDay();
+      final Map<String, List<UserImage>> imagesByDay =
+          await getImagesForMapUsecase();
 
       int? newCurrentIndex;
       if (currentDayImage.isNotEmpty) {
@@ -91,6 +101,7 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
           allImage: allImage,
           currentDayImage: currentDayImage,
           currentImage: newCurrentIndex,
+          imagesByDate: imagesByDay,
         ),
       );
     } catch (e) {

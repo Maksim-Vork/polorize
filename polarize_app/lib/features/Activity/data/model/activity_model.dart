@@ -16,7 +16,9 @@ class ActivityModel {
     return {
       "photoActivity": photoActivity,
       "sumActivityDays": sumActivityDays,
-      "lastDayActiv": Timestamp.fromDate(lastDayActiv!),
+      "lastDayActiv": lastDayActiv != null
+          ? Timestamp.fromDate(lastDayActiv!)
+          : null,
     };
   }
 
@@ -24,7 +26,9 @@ class ActivityModel {
     return ActivityModel(
       photoActivity: Map<String, int>.from(map['photoActivity']),
       sumActivityDays: map['sumActivityDays'] as int,
-      lastDayActiv: (map['lastDayActiv'] as Timestamp).toDate(),
+      lastDayActiv: map['lastDayActiv'] != null
+          ? (map['lastDayActiv'] as Timestamp).toDate()
+          : null,
     );
   }
 }

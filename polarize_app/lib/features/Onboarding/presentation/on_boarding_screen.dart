@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:polarize_app/features/auth/presentation/screen/register/register_screen.dart';
+import 'package:polarize_app/features/Auth/presentation/screen/register/register_screen.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});

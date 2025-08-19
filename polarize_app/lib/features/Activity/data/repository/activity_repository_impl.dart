@@ -9,8 +9,12 @@ class ActivityRepositoryImpl implements ActivityRepository {
   ActivityRepositoryImpl({required this.remoteActivityData});
   @override
   Future<void> createActivityForNewUser() async {
-    final ActivityModel activityModel = ActivityModel();
-    await remoteActivityData.createActivityForNewUser(activityModel);
+    try {
+      final ActivityModel activityModel = ActivityModel();
+      await remoteActivityData.createActivityForNewUser(activityModel);
+    } catch (e) {
+      throw Exception('Ошибка создания активности пользователю: $e');
+    }
   }
 
   @override
@@ -26,7 +30,7 @@ class ActivityRepositoryImpl implements ActivityRepository {
   @override
   Future<void> updateActivity(Activity updateActivity) async {
     final ActivityModel activityModel = ActivityModel(
-      photoActivity: updateActivity.photoActivity as Map<String, int>,
+      photoActivity: updateActivity.photoActivity,
       sumActivityDays: updateActivity.sumActivityDays,
       lastDayActiv: updateActivity.lastDayActiv,
     );

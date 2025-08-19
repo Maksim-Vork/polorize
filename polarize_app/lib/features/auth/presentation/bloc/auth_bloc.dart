@@ -41,7 +41,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(LoadingAuthState());
     try {
       await registerWithEmailAndPasswordUsecase(event.email, event.password);
-      activityBloc.add(GetActivityEvent());
+      activityBloc.add(CreateActivityForNewUserEvent());
       emit(SuccesAuthState());
     } catch (e) {
       emit(ErrorAuthState(error: e.toString()));

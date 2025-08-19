@@ -8,7 +8,7 @@ class RemoteAuthDatasource {
         password: password,
       );
     } catch (e) {
-      throw Exception(e);
+      throw Exception('Ошибка входа $e');
     }
   }
 
@@ -22,7 +22,7 @@ class RemoteAuthDatasource {
         password: password,
       );
     } catch (e) {
-      throw Exception(e);
+      throw Exception('Ошибка регистрации $e');
     }
   }
 

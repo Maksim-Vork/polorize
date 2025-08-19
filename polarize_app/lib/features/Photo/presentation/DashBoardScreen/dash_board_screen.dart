@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:polarize_app/features/Activity/presentation/bloc/activity_bloc.dart';
+import 'package:polarize_app/features/Activity/presentation/bloc/activity_state.dart';
+import 'package:polarize_app/features/Photo/presentation/PreviewPhotoScreen/view_photo_screen.dart';
 import 'package:polarize_app/features/Photo/presentation/bloc/photo_bloc.dart';
 import 'package:polarize_app/features/Photo/presentation/bloc/photo_event.dart';
 import 'package:polarize_app/features/Photo/presentation/bloc/photo_state.dart';
 
 class DashboardScreen extends StatefulWidget {
-  DashboardScreen({super.key});
+  const DashboardScreen({super.key});
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -64,7 +67,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   ),
                                   borderRadius: BorderRadius.circular(100),
                                 ),
-                                child: state.currentImage == null
+                                child:
+                                    state.currentImage == null ||
+                                        state.currentDayImage.isEmpty
                                     ? Center(
                                         child: Icon(
                                           Icons.photo_camera_outlined,
@@ -77,14 +82,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           size: 70,
                                         ),
                                       )
-                                    : Image.network(
-                                        width: 179,
-                                        fit: BoxFit.cover,
+                                    : InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Viewphotoscreen(
+                                                    imageUrl: state
+                                                        .currentDayImage[state
+                                                            .currentImage!]
+                                                        .imageUrl,
+                                                  ),
+                                            ),
+                                          );
+                                        },
+                                        child: Image.network(
+                                          width: 179,
+                                          fit: BoxFit.cover,
 
-                                        state
-                                            .currentDayImage[state
-                                                .currentImage!]
-                                            .imageUrl,
+                                          state
+                                              .currentDayImage[state
+                                                  .currentImage!]
+                                              .imageUrl,
+                                        ),
                                       ),
                               ),
                             ),
@@ -179,27 +200,42 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         topRight: Radius.circular(30),
                       ),
                     ),
-                    child: Padding(
-                      padding: EdgeInsetsGeometry.symmetric(
-                        horizontal: 33,
-                        vertical: 34,
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                'Твой стрик: 10 Дней подряд!',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                    child: BlocBuilder<ActivityBloc, ActivityState>(
+                      builder: (context, state) {
+                        if (state is LoadedActivityState) {
+                          return Padding(
+                            padding: EdgeInsetsGeometry.symmetric(
+                              horizontal: 33,
+                              vertical: 34,
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Твой стрик: ${state.activity.sumActivityDays} Дней подряд!',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                              ],
+                            ),
+                          );
+                        } else if (state is InitialActivityState ||
+                            state is LoadingActivityState) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (state is ErrorActivityState) {
+                          return Center(child: Text(state.error));
+                        } else {
+                          return Center(
+                            child: Text('Перезапустите приложение'),
+                          );
+                        }
+                      },
                     ),
                   ),
                 ],

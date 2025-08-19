@@ -10,22 +10,26 @@ class LoadedPhotoState extends PhotoState {
   final List<UserImage> allImage;
   final List<UserImage> currentDayImage;
   final int? currentImage;
+  final Map<String, List<UserImage>>? imagesByDate;
 
   LoadedPhotoState({
     required this.allImage,
     required this.currentDayImage,
     required this.currentImage,
+    required this.imagesByDate,
   });
 
   LoadedPhotoState copyWith({
     final List<UserImage>? allImage,
     final List<UserImage>? currentDayImage,
     final int? currentImage,
+    final Map<String, List<UserImage>>? imagesByDate,
   }) {
     return LoadedPhotoState(
       allImage: allImage ?? this.allImage,
       currentDayImage: currentDayImage ?? this.currentDayImage,
       currentImage: currentImage,
+      imagesByDate: imagesByDate ?? this.imagesByDate,
     );
   }
 }
