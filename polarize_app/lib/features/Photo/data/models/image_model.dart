@@ -4,9 +4,9 @@ import 'package:uuid/uuid.dart';
 final uuid = Uuid();
 final DateTime currentDay = DateTime.now();
 final DateTime date = DateTime(
-  currentDay.day,
-  currentDay.month,
   currentDay.year,
+  currentDay.month,
+  currentDay.day,
 );
 
 class ImageModel {

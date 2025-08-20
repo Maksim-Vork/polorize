@@ -19,7 +19,7 @@ class _ViewphotoscreenState extends State<Viewphotoscreen> {
           child: Container(color: Colors.white, height: 1),
         ),
         backgroundColor: Color.fromARGB(255, 30, 30, 30),
-        toolbarHeight: 60,
+        toolbarHeight: 70,
         automaticallyImplyLeading: false,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -45,11 +45,32 @@ class _ViewphotoscreenState extends State<Viewphotoscreen> {
               ),
             ),
           ),
+          Container(height: 1, width: double.infinity, color: Colors.white),
           Container(
-            height: 60,
+            height: 70,
             decoration: BoxDecoration(color: Color.fromARGB(255, 30, 30, 30)),
             width: double.infinity,
-            child: Row(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.ios_share_outlined,
+                    size: 30,
+                    color: const Color.fromARGB(255, 233, 233, 233),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.delete_outline,
+                    size: 30,
+                    color: const Color.fromARGB(255, 233, 233, 233),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

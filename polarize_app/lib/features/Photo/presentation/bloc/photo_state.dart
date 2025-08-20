@@ -10,7 +10,7 @@ class LoadedPhotoState extends PhotoState {
   final List<UserImage> allImage;
   final List<UserImage> currentDayImage;
   final int? currentImage;
-  final Map<String, List<UserImage>>? imagesByDate;
+  final List<MapEntry<String, List<UserImage>>>? imagesByDate;
 
   LoadedPhotoState({
     required this.allImage,
@@ -23,7 +23,7 @@ class LoadedPhotoState extends PhotoState {
     final List<UserImage>? allImage,
     final List<UserImage>? currentDayImage,
     final int? currentImage,
-    final Map<String, List<UserImage>>? imagesByDate,
+    final List<MapEntry<String, List<UserImage>>>? imagesByDate,
   }) {
     return LoadedPhotoState(
       allImage: allImage ?? this.allImage,

@@ -36,7 +36,7 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
       await addPhotoForCameraUsecase(event.forCamera);
       final List<UserImage> allImage = await getPhotosUsecase();
       final List<UserImage> currentDayImage = await getImageCurrentDay();
-      final Map<String, List<UserImage>> imagesByDay =
+      final List<MapEntry<String, List<UserImage>>> imagesByDay =
           await getImagesForMapUsecase();
       emit(
         LoadedPhotoState(
@@ -54,8 +54,11 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
   void _onGetPhotos(GetPhotosEvent event, Emitter<PhotoState> emit) async {
     try {
       final List<UserImage> allImage = await getPhotosUsecase();
+      for (var action in allImage) {
+        print(action.id);
+      }
       final List<UserImage> currentDayImage = await getImageCurrentDay();
-      final Map<String, List<UserImage>> imagesByDay =
+      final List<MapEntry<String, List<UserImage>>> imagesByDay =
           await getImagesForMapUsecase();
 
       emit(
@@ -81,7 +84,7 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
       await deletePhotoUsecase(event.userImage);
       final List<UserImage> allImage = await getPhotosUsecase();
       final List<UserImage> currentDayImage = await getImageCurrentDay();
-      final Map<String, List<UserImage>> imagesByDay =
+      final List<MapEntry<String, List<UserImage>>> imagesByDay =
           await getImagesForMapUsecase();
 
       int? newCurrentIndex;

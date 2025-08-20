@@ -6,18 +6,34 @@ class GetImagesForMapUsecase {
 
   GetImagesForMapUsecase({required this.photoRepository});
 
-  Future<Map<String, List<UserImage>>> call() async {
+  Future<List<MapEntry<String, List<UserImage>>>> call() async {
     final List<UserImage> images = await photoRepository.getUserImages();
 
     final Map<String, List<UserImage>> imagesForGalary = {};
 
     for (var userImage in images) {
-      final String key = userImage.createdAt.toString();
+      final DateTime dateCreated = userImage.createdAt;
+      final int currentYear = DateTime.now().year;
+      String formatDate;
+      if (dateCreated.year != currentYear) {
+        formatDate =
+            '${dateCreated.day.toString().padLeft(2, '0')}.${dateCreated.month.toString().padLeft(2, '0')}.${dateCreated.year}';
+        imagesForGalary.putIfAbsent(formatDate, () => []);
+      }
+      {
+        formatDate =
+            '${dateCreated.day.toString().padLeft(2, '0')}.${dateCreated.month.toString().padLeft(2, '0')}';
+        imagesForGalary.putIfAbsent(formatDate, () => []);
+      }
 
-      imagesForGalary.putIfAbsent(key, () => []);
-      imagesForGalary[key]!.add(userImage);
+      imagesForGalary[formatDate]!.add(userImage);
     }
 
-    return imagesForGalary;
+    final List<MapEntry<String, List<UserImage>>> imagesForGalaryList =
+        imagesForGalary.entries.toList();
+    for (var image in imagesForGalaryList) {
+      print(image.value.length);
+    }
+    return imagesForGalaryList;
   }
 }

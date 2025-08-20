@@ -33,11 +33,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
             return SingleChildScrollView(
               child: Stack(
                 children: [
-                  Image.asset(
-                    'assets/background_fon.png',
-                    fit: BoxFit.fill,
-                    width: double.infinity,
-                    height: 273,
+                  Container(
+                    color: Colors.white,
+                    child: Image.asset(
+                      'assets/background_fon.png',
+                      fit: BoxFit.fill,
+                      width: double.infinity,
+                      height: 273,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10),
@@ -56,8 +59,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             child: ClipRRect(
                               borderRadius: BorderRadiusGeometry.circular(300),
                               child: Container(
-                                height: 179,
-                                width: 179,
+                                height: 184,
+                                width: 184,
                                 decoration: BoxDecoration(
                                   color: const Color.fromARGB(
                                     255,
