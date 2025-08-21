@@ -16,10 +16,10 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
-    final TextEditingController _userNameController = TextEditingController();
-    final TextEditingController _emailController = TextEditingController();
-    final TextEditingController _passwordController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
+    final TextEditingController userNameController = TextEditingController();
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
 
     bool obscurePassword = true;
     return Scaffold(
@@ -81,7 +81,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 ),
                                 SizedBox(height: 35),
                                 Form(
-                                  key: _formKey,
+                                  key: formKey,
                                   child: Column(
                                     children: [
                                       SizedBox(
@@ -111,7 +111,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                   BorderRadius.circular(20),
                                             ),
                                           ),
-                                          controller: _userNameController,
+                                          controller: userNameController,
                                           style: TextStyle(
                                             color: Colors.white,
                                             fontSize: 22,
@@ -151,7 +151,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             fontSize: 22,
                                             fontWeight: FontWeight.w500,
                                           ),
-                                          controller: _emailController,
+                                          controller: emailController,
                                         ),
                                       ),
                                       SizedBox(height: 16),
@@ -208,7 +208,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             fontSize: 22,
                                             fontWeight: FontWeight.w500,
                                           ),
-                                          controller: _passwordController,
+                                          controller: passwordController,
                                         ),
                                       ),
                                     ],
@@ -253,8 +253,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     onPressed: () {
                                       BlocProvider.of<AuthBloc>(context).add(
                                         RegisterEvent(
-                                          email: _emailController.text,
-                                          password: _passwordController.text,
+                                          email: emailController.text,
+                                          password: passwordController.text,
                                         ),
                                       );
                                     },

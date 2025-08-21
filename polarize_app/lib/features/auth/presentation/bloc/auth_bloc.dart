@@ -7,6 +7,8 @@ import 'package:polarize_app/features/Auth/domain/usecase/register_with_email_an
 import 'package:polarize_app/features/Auth/domain/usecase/sign_out_usecase.dart';
 import 'package:polarize_app/features/Auth/presentation/bloc/auth_event.dart';
 import 'package:polarize_app/features/Auth/presentation/bloc/auth_state.dart';
+import 'package:polarize_app/features/Photo/presentation/bloc/photo_bloc.dart';
+import 'package:polarize_app/features/Photo/presentation/bloc/photo_event.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final CheckAuthUsecase checkAuthUsecase;
@@ -14,12 +16,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final RegisterWithEmailAndPasswordUsecase registerWithEmailAndPasswordUsecase;
   final SignOutUsecase signOutUsecase;
   final ActivityBloc activityBloc;
+  final PhotoBloc photoBloc;
   AuthBloc(
     this.checkAuthUsecase,
     this.loginWithEmailAndPasswordUsecase,
     this.registerWithEmailAndPasswordUsecase,
     this.signOutUsecase,
     this.activityBloc,
+    this.photoBloc,
   ) : super(InitialAuthState()) {
     on<LoginEvent>(_onLogin);
     on<RegisterEvent>(_onRegister);
@@ -64,6 +68,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   void _onSignOut(SignOutEvent event, Emitter<AuthState> emit) async {
     try {
       await signOutUsecase();
+      photoBloc.add(ResetPhohoEvent());
+      activityBloc.add(ResetActivityEvent());
       emit(NotSuccesAuthState());
     } catch (e) {
       emit(ErrorAuthState(error: e.toString()));

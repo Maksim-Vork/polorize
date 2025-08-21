@@ -194,6 +194,7 @@ class GalaryDayImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        SizedBox(height: 14),
         Row(
           children: [
             Text(
@@ -206,7 +207,7 @@ class GalaryDayImage extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 14),
+        SizedBox(height: 8),
         SizedBox(
           width: 400,
           height: 89,

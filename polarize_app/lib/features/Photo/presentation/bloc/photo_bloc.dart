@@ -16,6 +16,7 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
   final DeletePhotoUsecase deletePhotoUsecase;
   final GetImagesForMapUsecase getImagesForMapUsecase;
   final ActivityBloc activityBloc;
+
   PhotoBloc(
     this.addPhotoForCameraUsecase,
     this.getPhotosUsecase,
@@ -28,6 +29,7 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
     on<GetPhotosEvent>(_onGetPhotos);
     on<DeleteImageByIdEvent>(_onDeleteImage);
     on<SelectCurrentImageEvent>(_onSelectCurrentImage);
+    on<ResetPhohoEvent>(_onRessetPhoto);
   }
 
   void _onAddPhoto(AddPhotoEvent event, Emitter<PhotoState> emit) async {
@@ -38,6 +40,7 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
       final List<UserImage> currentDayImage = await getImageCurrentDay();
       final List<MapEntry<String, List<UserImage>>> imagesByDay =
           await getImagesForMapUsecase();
+      await activityBloc.updateActivityUsecase();
       emit(
         LoadedPhotoState(
           allImage: allImage,
@@ -54,9 +57,7 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
   void _onGetPhotos(GetPhotosEvent event, Emitter<PhotoState> emit) async {
     try {
       final List<UserImage> allImage = await getPhotosUsecase();
-      for (var action in allImage) {
-        print(action.id);
-      }
+
       final List<UserImage> currentDayImage = await getImageCurrentDay();
       final List<MapEntry<String, List<UserImage>>> imagesByDay =
           await getImagesForMapUsecase();
@@ -89,7 +90,6 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
 
       int? newCurrentIndex;
       if (currentDayImage.isNotEmpty) {
-        // Если текущий индекс больше последнего, сдвигаем его влево
         newCurrentIndex = state is LoadedPhotoState
             ? ((state as LoadedPhotoState).currentImage ?? 0)
             : 0;
@@ -118,5 +118,29 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
   ) async {
     final currentState = state as LoadedPhotoState;
     emit(currentState.copyWith(currentImage: event.currentIndex));
+  }
+
+  void _onRessetPhoto(ResetPhohoEvent event, Emitter<PhotoState> emit) async {
+    emit(InitialPhotoState());
+    try {
+      final List<UserImage> allImage = await getPhotosUsecase();
+
+      final List<UserImage> currentDayImage = await getImageCurrentDay();
+      final List<MapEntry<String, List<UserImage>>> imagesByDay =
+          await getImagesForMapUsecase();
+
+      emit(
+        LoadedPhotoState(
+          allImage: allImage,
+          currentDayImage: currentDayImage,
+          currentImage: currentDayImage.isNotEmpty
+              ? currentDayImage.length - 1
+              : null,
+          imagesByDate: imagesByDay,
+        ),
+      );
+    } catch (e) {
+      emit(ErrorPhotoState(error: e.toString()));
+    }
   }
 }

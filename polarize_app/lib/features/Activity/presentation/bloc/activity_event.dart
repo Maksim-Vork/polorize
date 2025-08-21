@@ -5,3 +5,5 @@ class GetActivityEvent extends ActivityEvent {}
 class CreateActivityForNewUserEvent extends ActivityEvent {}
 
 class UpdateActivityEvent extends ActivityEvent {}
+
+class ResetActivityEvent extends ActivityEvent {}

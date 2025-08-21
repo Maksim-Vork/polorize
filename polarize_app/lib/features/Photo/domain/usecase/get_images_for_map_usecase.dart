@@ -30,10 +30,8 @@ class GetImagesForMapUsecase {
     }
 
     final List<MapEntry<String, List<UserImage>>> imagesForGalaryList =
-        imagesForGalary.entries.toList();
-    for (var image in imagesForGalaryList) {
-      print(image.value.length);
-    }
+        imagesForGalary.entries.toList()..reversed;
+
     return imagesForGalaryList;
   }
 }

@@ -9,9 +9,9 @@ class GetImageCurrentDay {
   Future<List<UserImage>> call() async {
     final DateTime currentDay = DateTime.now();
     final DateTime date = DateTime(
-      currentDay.day,
-      currentDay.month,
       currentDay.year,
+      currentDay.month,
+      currentDay.day,
     );
     final List<UserImage> images = await photoRepository.getUserImages();
     final List<UserImage> imageCurrentDay = images

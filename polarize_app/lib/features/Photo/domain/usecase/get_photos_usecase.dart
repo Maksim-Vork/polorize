@@ -7,6 +7,10 @@ class GetPhotosUsecase {
   GetPhotosUsecase({required this.photoRepository});
 
   Future<List<UserImage>> call() async {
-    return await photoRepository.getUserImages();
+    final List<UserImage> images = await photoRepository.getUserImages();
+    for (var image in images) {
+      print(image.imageUrl);
+    }
+    return images;
   }
 }

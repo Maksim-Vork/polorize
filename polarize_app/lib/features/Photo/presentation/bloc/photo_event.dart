@@ -21,3 +21,5 @@ class SelectCurrentImageEvent extends PhotoEvent {
 
   SelectCurrentImageEvent({required this.currentIndex});
 }
+
+class ResetPhohoEvent extends PhotoEvent {}

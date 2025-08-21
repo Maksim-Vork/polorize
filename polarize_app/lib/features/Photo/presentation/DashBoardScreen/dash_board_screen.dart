@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'package:polarize_app/features/Activity/presentation/bloc/activity_bloc.dart';
 import 'package:polarize_app/features/Activity/presentation/bloc/activity_state.dart';
 import 'package:polarize_app/features/Photo/presentation/PreviewPhotoScreen/view_photo_screen.dart';
@@ -224,6 +225,31 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       ),
                                     ),
                                   ],
+                                ),
+                                SizedBox(height: 10),
+                                HeatMap(
+                                  size: 17,
+                                  borderRadius: 4,
+                                  defaultColor: const Color.fromARGB(
+                                    255,
+                                    63,
+                                    63,
+                                    63,
+                                  ),
+                                  datasets: state.activity.photoActivity,
+
+                                  colorMode: ColorMode.color,
+                                  showText: false,
+                                  showColorTip: false,
+                                  scrollable: true,
+                                  colorsets: {
+                                    1: const Color.fromARGB(51, 27, 255, 15),
+                                    2: const Color.fromARGB(128, 27, 255, 15),
+                                    3: const Color.fromARGB(223, 27, 255, 15),
+
+                                    4: const Color.fromARGB(255, 192, 192, 192),
+                                    5: const Color.fromARGB(255, 255, 255, 255),
+                                  },
                                 ),
                               ],
                             ),

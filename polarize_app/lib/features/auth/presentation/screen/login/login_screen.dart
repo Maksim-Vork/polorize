@@ -13,8 +13,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _emailController = TextEditingController();
-    final TextEditingController _passwordController = TextEditingController();
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
 
     bool obscurePassword = true;
     return Scaffold(
@@ -91,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     fontSize: 22,
                                     fontWeight: FontWeight.w500,
                                   ),
-                                  controller: _emailController,
+                                  controller: emailController,
                                 ),
                               ),
                               SizedBox(height: 16),
@@ -119,11 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           obscurePassword = !obscurePassword;
                                         });
                                       },
-                                      icon: Icon(
-                                        obscurePassword
-                                            ? Icons.visibility_off
-                                            : Icons.visibility,
-                                      ),
+                                      icon: Icon(Icons.visibility_off),
                                     ),
                                     contentPadding: EdgeInsets.symmetric(
                                       horizontal: 10,
@@ -145,7 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     fontSize: 22,
                                     fontWeight: FontWeight.w500,
                                   ),
-                                  controller: _passwordController,
+                                  controller: passwordController,
                                 ),
                               ),
                             ],
@@ -190,8 +186,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               try {
                                 BlocProvider.of<AuthBloc>(context).add(
                                   LoginEvent(
-                                    email: _emailController.text,
-                                    password: _passwordController.text,
+                                    email: emailController.text,
+                                    password: passwordController.text,
                                   ),
                                 );
                                 Navigator.pop(context);

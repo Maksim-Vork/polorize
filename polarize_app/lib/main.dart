@@ -118,6 +118,7 @@ void main() async {
               registerWithEmailAndPasswordUsecase,
               signOutUsecase,
               context.read<ActivityBloc>(),
+              context.read<PhotoBloc>(),
             )..add(ChechAuthEvent()),
           ),
         ],
