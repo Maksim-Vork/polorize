@@ -99,7 +99,7 @@ void main() async {
               getActivityUsecase,
               createActivityForNewUserUsecase,
               updateActivityUsecase,
-            )..add(GetActivityEvent()),
+            ),
           ),
           BlocProvider(
             create: (context) => PhotoBloc(
@@ -109,7 +109,7 @@ void main() async {
               deletePhotoUsecase,
               context.read<ActivityBloc>(),
               getImagesForMapUsecase,
-            )..add(GetPhotosEvent()),
+            ),
           ),
           BlocProvider(
             create: (context) => AuthBloc(

@@ -35,6 +35,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(LoadingAuthState());
     try {
       await loginWithEmailAndPasswordUsecase(event.email, event.password);
+      activityBloc.add(GetActivityEvent());
+      photoBloc.add(GetPhotosEvent());
       emit(SuccesAuthState());
     } catch (e) {
       emit(ErrorAuthState(error: e.toString()));
@@ -45,6 +47,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(LoadingAuthState());
     try {
       await registerWithEmailAndPasswordUsecase(event.email, event.password);
+      photoBloc.add(GetPhotosEvent());
       activityBloc.add(CreateActivityForNewUserEvent());
       emit(SuccesAuthState());
     } catch (e) {
@@ -57,6 +60,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final bool authUser = await checkAuthUsecase();
       if (authUser) {
         emit(SuccesAuthState());
+        activityBloc.add(GetActivityEvent());
+        photoBloc.add(GetPhotosEvent());
       } else {
         emit(NotSuccesAuthState());
       }

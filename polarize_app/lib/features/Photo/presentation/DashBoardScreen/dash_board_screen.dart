@@ -93,10 +93,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                             MaterialPageRoute(
                                               builder: (context) =>
                                                   Viewphotoscreen(
-                                                    imageUrl: state
-                                                        .currentDayImage[state
-                                                            .currentImage!]
-                                                        .imageUrl,
+                                                    userImage:
+                                                        state
+                                                            .currentDayImage[state
+                                                            .currentImage!],
                                                   ),
                                             ),
                                           );

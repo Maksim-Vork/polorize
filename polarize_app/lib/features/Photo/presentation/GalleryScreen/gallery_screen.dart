@@ -18,17 +18,20 @@ class _GalleryScreenState extends State<GalleryScreen> {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 30, 30, 30),
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 30, 30, 30),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(1),
-          child: Container(color: Colors.black, height: 1),
+          child: Container(
+            color: const Color.fromARGB(255, 255, 255, 255),
+            height: 1,
+          ),
         ),
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
         toolbarHeight: 75,
         title: Text(
           'Галерея',
           style: TextStyle(
-            color: Colors.black,
+            color: const Color.fromARGB(255, 255, 255, 255),
             fontSize: 30,
             fontWeight: FontWeight.bold,
           ),
@@ -221,7 +224,7 @@ class GalaryDayImage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => Viewphotoscreen(
-                        imageUrl: imagesFromDay.value[index].imageUrl,
+                        userImage: imagesFromDay.value[index],
                       ),
                     ),
                   );

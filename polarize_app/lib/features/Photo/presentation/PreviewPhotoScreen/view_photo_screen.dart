@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:polarize_app/features/Photo/domain/entity/image.dart';
+import 'package:polarize_app/features/Photo/presentation/bloc/photo_bloc.dart';
+import 'package:polarize_app/features/Photo/presentation/bloc/photo_event.dart';
 
 class Viewphotoscreen extends StatefulWidget {
-  const Viewphotoscreen({super.key, required this.imageUrl});
+  const Viewphotoscreen({super.key, required, required this.userImage});
 
   @override
   State<Viewphotoscreen> createState() => _ViewphotoscreenState();
-  final String imageUrl;
+  final UserImage userImage;
 }
 
 class _ViewphotoscreenState extends State<Viewphotoscreen> {
@@ -39,7 +43,7 @@ class _ViewphotoscreenState extends State<Viewphotoscreen> {
           Expanded(
             child: InteractiveViewer(
               child: Image.network(
-                widget.imageUrl,
+                widget.userImage.imageUrl,
                 width: double.infinity,
                 fit: BoxFit.fill,
               ),
@@ -62,7 +66,12 @@ class _ViewphotoscreenState extends State<Viewphotoscreen> {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    BlocProvider.of<PhotoBloc>(
+                      context,
+                    ).add(DeleteImageByIdEvent(userImage: widget.userImage));
+                    Navigator.pop(context);
+                  },
                   icon: Icon(
                     Icons.delete_outline,
                     size: 30,
