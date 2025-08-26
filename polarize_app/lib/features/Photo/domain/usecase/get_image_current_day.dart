@@ -1,10 +1,10 @@
 import 'package:polarize_app/features/Photo/domain/entity/image.dart';
 import 'package:polarize_app/features/Photo/domain/repository/photo_repository.dart';
 
-class GetImageCurrentDay {
+class GetImageCurrentDayUsecase {
   final PhotoRepository photoRepository;
 
-  GetImageCurrentDay({required this.photoRepository});
+  GetImageCurrentDayUsecase({required this.photoRepository});
 
   Future<List<UserImage>> call() async {
     final DateTime currentDay = DateTime.now();

@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:polarize_app/core/Services/Locator/get_it.dart';
 import 'package:polarize_app/features/Activity/presentation/bloc/activity_bloc.dart';
 import 'package:polarize_app/features/Activity/presentation/bloc/activity_event.dart';
 import 'package:polarize_app/features/Auth/domain/usecase/check_auth_usecase.dart';
@@ -11,20 +12,16 @@ import 'package:polarize_app/features/Photo/presentation/bloc/photo_bloc.dart';
 import 'package:polarize_app/features/Photo/presentation/bloc/photo_event.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final CheckAuthUsecase checkAuthUsecase;
-  final LoginWithEmailAndPasswordUsecase loginWithEmailAndPasswordUsecase;
-  final RegisterWithEmailAndPasswordUsecase registerWithEmailAndPasswordUsecase;
-  final SignOutUsecase signOutUsecase;
+  final CheckAuthUsecase checkAuthUsecase = getIt<CheckAuthUsecase>();
+  final LoginWithEmailAndPasswordUsecase loginWithEmailAndPasswordUsecase =
+      getIt<LoginWithEmailAndPasswordUsecase>();
+  final RegisterWithEmailAndPasswordUsecase
+  registerWithEmailAndPasswordUsecase =
+      getIt<RegisterWithEmailAndPasswordUsecase>();
+  final SignOutUsecase signOutUsecase = getIt<SignOutUsecase>();
   final ActivityBloc activityBloc;
   final PhotoBloc photoBloc;
-  AuthBloc(
-    this.checkAuthUsecase,
-    this.loginWithEmailAndPasswordUsecase,
-    this.registerWithEmailAndPasswordUsecase,
-    this.signOutUsecase,
-    this.activityBloc,
-    this.photoBloc,
-  ) : super(InitialAuthState()) {
+  AuthBloc(this.activityBloc, this.photoBloc) : super(InitialAuthState()) {
     on<LoginEvent>(_onLogin);
     on<RegisterEvent>(_onRegister);
     on<ChechAuthEvent>(_onCheck);

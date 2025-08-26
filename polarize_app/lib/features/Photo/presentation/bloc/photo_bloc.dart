@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:polarize_app/core/Services/Locator/get_it.dart';
 import 'package:polarize_app/features/Activity/presentation/bloc/activity_bloc.dart';
 import 'package:polarize_app/features/Photo/domain/entity/image.dart';
 import 'package:polarize_app/features/Photo/domain/usecase/add_photo_usecase.dart';
@@ -10,21 +11,16 @@ import 'package:polarize_app/features/Photo/presentation/bloc/photo_event.dart';
 import 'package:polarize_app/features/Photo/presentation/bloc/photo_state.dart';
 
 class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
-  final AddPhotoUsecase addPhotoForCameraUsecase;
-  final GetPhotosUsecase getPhotosUsecase;
-  final GetImageCurrentDay getImageCurrentDay;
-  final DeletePhotoUsecase deletePhotoUsecase;
-  final GetImagesForMapUsecase getImagesForMapUsecase;
+  final AddPhotoUsecase addPhotoForCameraUsecase = getIt<AddPhotoUsecase>();
+  final GetPhotosUsecase getPhotosUsecase = getIt<GetPhotosUsecase>();
+  final GetImageCurrentDayUsecase getImageCurrentDay =
+      getIt<GetImageCurrentDayUsecase>();
+  final DeletePhotoUsecase deletePhotoUsecase = getIt<DeletePhotoUsecase>();
+  final GetImagesForMapUsecase getImagesForMapUsecase =
+      getIt<GetImagesForMapUsecase>();
   final ActivityBloc activityBloc;
 
-  PhotoBloc(
-    this.addPhotoForCameraUsecase,
-    this.getPhotosUsecase,
-    this.getImageCurrentDay,
-    this.deletePhotoUsecase,
-    this.activityBloc,
-    this.getImagesForMapUsecase,
-  ) : super(InitialPhotoState()) {
+  PhotoBloc(this.activityBloc) : super(InitialPhotoState()) {
     on<AddPhotoEvent>(_onAddPhoto);
     on<GetPhotosEvent>(_onGetPhotos);
     on<DeleteImageByIdEvent>(_onDeleteImage);

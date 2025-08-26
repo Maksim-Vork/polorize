@@ -50,8 +50,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       children: [
                         SizedBox(width: 60),
                         Container(
-                          height: 186,
-                          width: 186,
+                          height: 202,
+                          width: 202,
                           decoration: BoxDecoration(
                             color: Color.fromARGB(255, 28, 28, 28),
                             borderRadius: BorderRadius.circular(300),
@@ -60,8 +60,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             child: ClipRRect(
                               borderRadius: BorderRadiusGeometry.circular(300),
                               child: Container(
-                                height: 184,
-                                width: 184,
+                                height: 200,
+                                width: 200,
                                 decoration: BoxDecoration(
                                   color: const Color.fromARGB(
                                     255,
@@ -134,18 +134,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  IconButton(
-                                    onPressed: () {
-                                      BlocProvider.of<PhotoBloc>(context).add(
-                                        DeleteImageByIdEvent(
-                                          userImage:
-                                              state.currentDayImage[state
-                                                  .currentImage!],
-                                        ),
-                                      );
-                                    },
-                                    icon: Icon(Icons.delete, size: 25),
-                                  ),
+                                  state.currentDayImage.isNotEmpty
+                                      ? IconButton(
+                                          onPressed: () {
+                                            BlocProvider.of<PhotoBloc>(
+                                              context,
+                                            ).add(
+                                              DeleteImageByIdEvent(
+                                                userImage:
+                                                    state.currentDayImage[state
+                                                        .currentImage!],
+                                              ),
+                                            );
+                                          },
+                                          icon: Icon(Icons.delete, size: 25),
+                                        )
+                                      : SizedBox(),
                                 ],
                               ),
                             ),

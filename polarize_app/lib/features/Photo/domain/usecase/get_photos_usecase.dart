@@ -8,9 +8,6 @@ class GetPhotosUsecase {
 
   Future<List<UserImage>> call() async {
     final List<UserImage> images = await photoRepository.getUserImages();
-    for (var image in images) {
-      print(image.imageUrl);
-    }
     return images;
   }
 }

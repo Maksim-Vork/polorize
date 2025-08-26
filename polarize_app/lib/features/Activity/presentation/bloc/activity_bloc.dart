@@ -1,6 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:polarize_app/core/Services/Locator/get_it.dart';
 import 'package:polarize_app/features/Activity/domain/entity/activity.dart';
 import 'package:polarize_app/features/Activity/domain/usecase/create_activity_for_new_user_usecase.dart';
 import 'package:polarize_app/features/Activity/domain/usecase/get_activity_usecase.dart';
@@ -9,14 +8,12 @@ import 'package:polarize_app/features/Activity/presentation/bloc/activity_event.
 import 'package:polarize_app/features/Activity/presentation/bloc/activity_state.dart';
 
 class ActivityBloc extends Bloc<ActivityEvent, ActivityState> {
-  final GetActivityUsecase getActivityUsecase;
-  final CreateActivityForNewUserUsecase createActivityForNewUserUsecase;
-  final UpdateActivityUsecase updateActivityUsecase;
-  ActivityBloc(
-    this.getActivityUsecase,
-    this.createActivityForNewUserUsecase,
-    this.updateActivityUsecase,
-  ) : super(InitialActivityState()) {
+  final GetActivityUsecase getActivityUsecase = getIt<GetActivityUsecase>();
+  final CreateActivityForNewUserUsecase createActivityForNewUserUsecase =
+      getIt<CreateActivityForNewUserUsecase>();
+  final UpdateActivityUsecase updateActivityUsecase =
+      getIt<UpdateActivityUsecase>();
+  ActivityBloc() : super(InitialActivityState()) {
     on<GetActivityEvent>(_onGetActivity);
     on<CreateActivityForNewUserEvent>(_onCreateActivity);
     on<UpdateActivityEvent>(_onUpdateActivity);

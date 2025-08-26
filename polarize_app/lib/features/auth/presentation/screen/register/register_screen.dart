@@ -4,7 +4,7 @@ import 'package:polarize_app/features/Auth/presentation/bloc/auth_bloc.dart';
 import 'package:polarize_app/features/Auth/presentation/bloc/auth_event.dart';
 import 'package:polarize_app/features/Auth/presentation/bloc/auth_state.dart';
 import 'package:polarize_app/features/Auth/presentation/screen/login/login_screen.dart';
-import 'package:polarize_app/main_wrapper.dart';
+import 'package:polarize_app/app/main_wrapper.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});

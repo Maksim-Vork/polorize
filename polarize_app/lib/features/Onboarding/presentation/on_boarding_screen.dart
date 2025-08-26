@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:polarize_app/core/Bloc/first_start_bloc.dart';
+import 'package:polarize_app/core/Bloc/first_start_state.dart';
 import 'package:polarize_app/features/Auth/presentation/screen/register/register_screen.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -13,99 +16,122 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   int _countScreen = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color.fromARGB(255, 30, 30, 30),
-      body: Padding(
-        padding: EdgeInsetsGeometry.symmetric(horizontal: 15, vertical: 10),
-        child: Center(
-          child: Column(
-            // mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              SizedBox(
-                height: 600,
-                child: PageView(
-                  controller: _pageController,
+    return BlocBuilder<StartBloc, StartState>(
+      builder: (context, state) {
+        if (state is InitialStartState || state is LoadingStartState) {
+          return Center(child: CircularProgressIndicator());
+        } else if (state is FirstStartState) {
+          return Scaffold(
+            backgroundColor: Color.fromARGB(255, 30, 30, 30),
+            body: Padding(
+              padding: EdgeInsetsGeometry.symmetric(
+                horizontal: 15,
+                vertical: 10,
+              ),
+              child: Center(
+                child: Column(
+                  // mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    PageViewCart(
-                      urlImg: 'assets/onboard_1.png',
-                      upText: 'Save the best moments to',
-                      text: 'remember with a smile',
+                    SizedBox(
+                      height: 600,
+                      child: PageView(
+                        controller: _pageController,
+                        children: [
+                          PageViewCart(
+                            urlImg: 'assets/onboard_1.png',
+                            upText: 'Save the best moments to',
+                            text: 'remember with a smile',
+                          ),
+                          PageViewCart(
+                            urlImg: 'assets/onboard_3.png',
+                            upText: 'Collect your history',
+                            text: 'in one place',
+                          ),
+                          PageViewCart(
+                            urlImg: 'assets/onboard_2.png',
+                            upText: 'Can you fit a day',
+                            text: 'into 3 frames?',
+                          ),
+                        ],
+                      ),
                     ),
-                    PageViewCart(
-                      urlImg: 'assets/onboard_3.png',
-                      upText: 'Collect your history',
-                      text: 'in one place',
-                    ),
-                    PageViewCart(
-                      urlImg: 'assets/onboard_2.png',
-                      upText: 'Can you fit a day',
-                      text: 'into 3 frames?',
+
+                    SizedBox(height: 48),
+                    SizedBox(
+                      width: 326,
+                      height: 71,
+                      child: _countScreen == 2
+                          ? ElevatedButton(
+                              style: ButtonStyle(
+                                shape:
+                                    WidgetStateProperty.all<
+                                      RoundedRectangleBorder
+                                    >(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(25),
+                                      ),
+                                    ),
+                              ),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => RegisterScreen(),
+                                  ),
+                                );
+                              },
+                              child: Text(
+                                'Finish',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            )
+                          : ElevatedButton(
+                              style: ButtonStyle(
+                                shape:
+                                    WidgetStateProperty.all<
+                                      RoundedRectangleBorder
+                                    >(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(25),
+                                      ),
+                                    ),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _countScreen++;
+                                  _pageController.nextPage(
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.ease,
+                                  );
+                                });
+                              },
+                              child: Text(
+                                'Next',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
                     ),
                   ],
                 ),
               ),
-
-              SizedBox(height: 48),
-              SizedBox(
-                width: 326,
-                height: 71,
-                child: _countScreen == 2
-                    ? ElevatedButton(
-                        style: ButtonStyle(
-                          shape:
-                              WidgetStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                              ),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) => RegisterScreen()),
-                          );
-                        },
-                        child: Text(
-                          'Finish',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      )
-                    : ElevatedButton(
-                        style: ButtonStyle(
-                          shape:
-                              WidgetStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                              ),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _countScreen++;
-                            _pageController.nextPage(
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.ease,
-                            );
-                          });
-                        },
-                        child: Text(
-                          'Next',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
+          );
+        } else if (state is NotFisrtStartState) {
+          return RegisterScreen();
+        } else if (state is ErrorStartState) {
+          return Center(child: Text(state.error));
+        } else {
+          return Center(child: Text('Перезагрузите приложение'));
+        }
+      },
     );
   }
 }

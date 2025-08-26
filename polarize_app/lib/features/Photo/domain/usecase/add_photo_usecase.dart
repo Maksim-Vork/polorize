@@ -9,15 +9,16 @@ class AddPhotoUsecase {
   Future<void> call(bool forCamera) async {
     final DateTime currentDay = DateTime.now();
     final DateTime date = DateTime(
-      currentDay.day,
-      currentDay.month,
       currentDay.year,
+      currentDay.month,
+      currentDay.day,
     );
     final List<UserImage> images = await photoRepository.getUserImages();
     final List<UserImage> imageCurrentDay = images
         .where((e) => e.createdAt == date)
         .toList();
     if (imageCurrentDay.length < 3) {
+      print(imageCurrentDay.length);
       await photoRepository.addPhotoForCamera(forCamera);
     }
   }
